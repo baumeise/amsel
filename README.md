@@ -1,6 +1,4 @@
 # Amsel
-
-## Overview
 This project is dedicated to develop a preferably cheap robot for freshmen students to teach them basic coding. Main focus is to learn the python in a way as easy as possible without whitewash the fundamental structures of programming.
 
 ## Prerequisites

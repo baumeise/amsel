@@ -1,0 +1,140 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #002b50;
+      padding: 20px;
+
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    a {
+      color: #00bab6; 
+    }
+
+    p.main_text {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 20px;
+      color: #e3f6ff;
+    }
+
+    p.sub_text {
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 15px;
+      color: #e3f6ff;
+      opacity: 0.4;
+      text-align: center;
+    }
+
+    .mb {
+      margin-bottom: 30px;
+    }
+
+    .mbs {
+      margin-bottom: 20px;
+    }
+
+    #logo {
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid #f3f3f3;
+      padding-bottom: 10px;
+    }
+
+    #logo svg {
+      width: 60px;
+      float: left;
+    }
+
+    #logo svg path {
+      fill: #00bab6;
+    }
+
+    #logo span {
+      float: left;
+      line-height: 63px;
+      color: #e3f6ff;
+      font-size: 18px;
+      padding-left: 10px;
+    }
+
+    .ssid_input,
+    .pass_input {
+      width: 100%;
+      margin-bottom: 10px;
+      line-height: 36px;
+      padding: 0 10px;
+      border: 1px solid #f3f3f3;
+      background-color: transparent;
+      color: #f3f3f3;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .ssid_input::placeholder,
+    .pass_input::placeholder {
+      color: #f3f3f3;
+      opacity: 0.3;
+      letter-spacing: 1px;
+    }
+
+    .submit_input {
+      width: 100%;
+      line-height: 36px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #00bab6;
+      color: #002b50;
+      border: 0;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="logo" class="mbs">
+    <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+      y="0px" viewBox="180 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+      <g>
+        <path d="M652.3,411.1c-47.1-47.1-47.1-123.4,0-170.4s123.4-47.1,170.4,0c47.1,47.1,47.1,123.4,0,170.4
+    		C775.6,458.2,699.3,458.2,652.3,411.1" />
+        <g>
+          <path d="M652.2,827.8c-0.6,0-1.2,0-1.7,0c-94.3-0.9-171.7-77.2-172.6-170.1c-0.2-22.7,18-41.2,40.6-41.4
+    			c22.8,0.4,41.2,18,41.4,40.6c0.5,48.5,41.4,88.4,91.3,88.8c24-0.4,46.9-8.8,63.6-25.5c16-16,24.7-37.3,24.5-60
+    			c-0.5-48.5-41.4-88.3-91.4-88.8c-140.4-1.4-423.2-2.5-426.1-2.6c-22.7-0.1-41-18.6-40.9-41.2c0.1-22.6,18.4-40.9,41-40.9
+    			c0.1,0,0.1,0,0.2,0c2.8,0,285.9,1.2,426.5,2.6c94.3,0.9,171.7,77.2,172.6,170.1c0.4,44.9-16.8,87.1-48.6,118.8
+    			C740.8,810.2,698,827.8,652.2,827.8z" />
+        </g>
+      </g>
+    </svg>
+    <span>Howdy, I am Amsel!</span>
+  </div>
+
+  <p class="main_text mb">Enter some wifi credentials to connect your Amsel to the local Network.</p>
+
+  <form action="http://192.168.4.1/login" method="GET">
+    <input type="text" class="ssid_input" name="ssid" placeholder="SSID" required>
+    <br>
+    <input type="password" class="pass_input" name="pass" placeholder="Password" required>
+    <br><br>
+    <input type="submit" class="submit_input" value="Connect to WiFi">
+  </form> 
+  <p id="doc_info" class="sub_text"></p>
+</body>
+<script>
+  function getURL() {
+    var currURL = window.location.hostname;
+    var docsURL = currURL + "/docs"
+    var documentation_info = "For further information visit <a href=\"" + docsURL + "\">" + docsURL + "</a>";
+    document.querySelector("#doc_info").innerHTML = documentation_info;
+  }
+  getURL();
+</script>
+</html>

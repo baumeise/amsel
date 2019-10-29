@@ -1,4 +1,6 @@
-<!DOCTYPE HTML><html>
+<!DOCTYPE HTML>
+<html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
@@ -10,11 +12,11 @@
       background-color: #002b50;
       padding: 20px;
 
-      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
 
     a {
-      color: #00bab6; 
+      color: #00bab6;
     }
 
     p.main_text {
@@ -64,44 +66,13 @@
       font-size: 18px;
       padding-left: 10px;
     }
-
-    .ssid_input,
-    .pass_input {
-      width: 100%;
-      margin-bottom: 10px;
-      line-height: 36px;
-      padding: 0 10px;
-      border: 1px solid #f3f3f3;
-      background-color: transparent;
-      color: #f3f3f3;
-      font-size: 15px;
-      font-weight: 300;
-      letter-spacing: 1px;
-    }
-
-    .ssid_input::placeholder,
-    .pass_input::placeholder {
-      color: #f3f3f3;
-      opacity: 0.3;
-      letter-spacing: 1px;
-    }
-
-    .submit_input {
-      width: 100%;
-      line-height: 36px;
-      font-size: 15px;
-      font-weight: 600;
-      background-color: #00bab6;
-      color: #002b50;
-      border: 0;
-    }
-
   </style>
 </head>
+
 <body>
   <div id="logo" class="mbs">
-    <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-      y="0px" viewBox="180 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+    <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px" y="0px" viewBox="180 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
       <g>
         <path d="M652.3,411.1c-47.1-47.1-47.1-123.4,0-170.4s123.4-47.1,170.4,0c47.1,47.1,47.1,123.4,0,170.4
     		C775.6,458.2,699.3,458.2,652.3,411.1" />
@@ -117,16 +88,9 @@
     <span>Howdy, I am Amsel!</span>
   </div>
 
-  <p class="main_text mb">Enter some wifi credentials to connect your Amsel to the local Network.</p>
-
-  <form action="http://192.168.4.1/login" method="GET">
-    <input type="text" class="ssid_input" name="ssid" placeholder="SSID" required>
-    <br>
-    <input type="password" class="pass_input" name="pass" placeholder="Password" required>
-    <br><br>
-    <input type="submit" class="submit_input" value="Connect to WiFi">
-  </form> 
-  <p id="doc_info" class="sub_text"></p>
+  <p id="main_info" class="main_text mb">
+    
+  </p>
 </body>
 <script>
   function getURL() {
@@ -134,14 +98,15 @@
   }
 
   function insertHTML() {
-    let url = getURL();
-    var docs_info = "For further information visit <a href=\"" + url + "/docs\">" + url + "/docs</a>";
-    document.querySelector("#doc_info").innerHTML = docs_info;
+    let url =  getURL();
+    let main_info = "Go to <a href=\"" + url + "/setup\">" + url + "/setup</a> to connect your Amsel to the local network."
+    document.querySelector("#main_info").innerHTML = main_info;
   }
 
   function init() {
-    insertHTML();
+   insertHTML();
   }
   init();
 </script>
+
 </html>

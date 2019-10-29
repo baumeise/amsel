@@ -130,18 +130,11 @@
 </body>
 <script>
   function getURL() {
-    return window.location.hostname;
+    var currURL = window.location.hostname;
+    var docsURL = currURL + "/docs"
+    var documentation_info = "For further information visit <a href=\"" + docsURL + "\">" + docsURL + "</a>";
+    document.querySelector("#doc_info").innerHTML = documentation_info;
   }
-
-  function insertHTML() {
-    let url = getURL();
-    var docs_info = "For further information visit <a href=\"" + url + "/docs\">" + url + "/docs</a>";
-    document.querySelector("#doc_info").innerHTML = docs_info;
-  }
-
-  function init() {
-    insertHTML();
-  }
-  init();
+  getURL();
 </script>
 </html>

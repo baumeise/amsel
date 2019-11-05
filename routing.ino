@@ -48,19 +48,4 @@ void routes() {
   server.on("/login", handleLoginAttempt);
   server.on("/connect", handleConnect);
   server.onNotFound(handleNotFound);  
-  server.on("/forward", []() { 
-    handleForward();
-  });
-  server.on("/reverse", []() {
-    handleReverse();
-  });
-  server.on("/stop", []() {
-    stop();
-  });
-  server.on("/right", []() {
-    handleRight();
-  });
-  server.on("/left", []() {
-    handleLeft();
-  });
 }

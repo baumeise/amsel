@@ -3,7 +3,7 @@ This project is dedicated to develop a preferably cheap robot for freshmen stude
 
 ## Prerequisites
 ### Hardware
-- WEMOS D1 R1 (ESP8266)
+- WEMOS D1 R1 (ESP32)
 
 ### Software
 - [Arduino IDE](https://www.arduino.cc/en/main/software) or other flashing technique 
@@ -16,7 +16,7 @@ This project is dedicated to develop a preferably cheap robot for freshmen stude
 ## Get started
 1. Clone this repository `git clone https://github.com/moritzgvt/amsel.git`
 1. [Arduino IDE](https://www.arduino.cc/en/main/software): Copy this link into “Additional Board Manager URLs” in the Preferences ```https://dl.espressif.com/dl/package_esp32_index.json```
-2. [Arduino IDE](https://www.arduino.cc/en/main/software): Install ESP8266 in Board Manager
+2. [Arduino IDE](https://www.arduino.cc/en/main/software): Install ESP32 in Board Manager
 3. [Arduino IDE](https://www.arduino.cc/en/main/software): Choose your board, baud-rate (115200) and capacity (4M – 1M SPIFFS)
 4. Upload the code to your Board
 5. Upload the data folder with SPIFFS

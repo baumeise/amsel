@@ -7,16 +7,16 @@ Check the [official documentation page](https://moritzgvt.github.io/amsel/) for 
 ## Usage
 Get [amselpy](https://github.com/moritzgvt/amselpy) library, then:
 ``` python
-# import Python library
+# import library
 from amselpy import Amsel
 
-# create instance of Amsel class
+# create instance
 amsel = Amsel()
 
-# set the instances request adress
+# set request adress
 amsel.use("192.168.0.100")
 
-# control movements (more in the docs)
+# control movements
 amsel.forward()
 amsel.sleep(5)
 amsel.stop()

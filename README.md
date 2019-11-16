@@ -8,7 +8,7 @@ This project is dedicated to develop a preferably cheap robot for freshmen stude
 Read the [documentation](https://moritzgvt.github.io/amsel/getting-started) for an installation and usage guide.
 
 ### Library supported
-Get [amselpy](https://github.com/moritzgvt/amselpy) library, then:
+Get `amselpy` library. [Learn more …](https://moritzgvt.github.io/amselpy/)
 ``` python
 # import library
 from amselpy import Amsel
@@ -24,7 +24,6 @@ amsel.forward()
 amsel.sleep(5)
 amsel.stop()
 ```
-[Learn more …](https://moritzgvt.github.io/amsel/docs/)
 
 ### Onboard API
 Use the Amsels IP address (default: `192.168.0.100`) as an endpoint to fetch data or trigger functionality.<br>

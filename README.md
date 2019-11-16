@@ -1,7 +1,7 @@
 ## Amsel :bird:
 This project is dedicated to develop a preferably cheap robot for freshmen students to teach them basic coding. Main focus is to learn the python in a way as easy as possible without whitewash the fundamental structures of programming.
 
-### Getting Stated
+### Getting Started
 Check the [official documentation page](https://moritzgvt.github.io/amsel/) for further information.
 
 ### Library supported
@@ -23,7 +23,7 @@ amsel.stop()
 ```
 
 ### Onboard API
-Use `http://YOUR-AMSEL-IP/` as an endpoint to fetch data or trigger functionality.
+Use the Amsels IP address (default: `192.168.0.100`) as an endpoint to fetch data or trigger functionality. [Learn more …](https://moritzgvt.github.io/amsel/api/)
 
 ### Additional Information
 This code is a result of the course "Roboter Didaktik" at University of Media Stuttgart.

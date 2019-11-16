@@ -4,5 +4,23 @@ This project is dedicated to develop a preferably cheap robot for freshmen stude
 ## Getting Stated
 Check the [official documentation page](https://moritzgvt.github.io/amsel/) for further information.
 
+## Usage
+Get [amselpy](https://github.com/moritzgvt/amselpy) library, then:
+``` python
+# import Python library
+from amselpy import Amsel
+
+# create instance of Amsel class
+amsel = Amsel()
+
+# set the instances request adress
+amsel.use("192.168.0.100")
+
+# control movements (more in the docs)
+amsel.forward()
+amsel.sleep(5)
+amsel.stop()
+```
+
 ## Additional Information
 This Project is a result of the course "Roboter Didaktik" at University of Media Stuttgart

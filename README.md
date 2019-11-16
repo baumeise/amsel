@@ -23,7 +23,7 @@ amsel.stop()
 ```
 
 ### Onboard API
-Use `http://amsel.local/` as an endpoint to fetch data or trigger functionality.
+Use `http://YOUR-AMSEL-IP/` as an endpoint to fetch data or trigger functionality.
 
 ### Additional Information
 This code is a result of the course "Roboter Didaktik" at University of Media Stuttgart.

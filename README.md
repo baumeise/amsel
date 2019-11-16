@@ -24,3 +24,7 @@ amsel.stop()
 
 ## Additional Information
 This Project is a result of the course "Roboter Didaktik" at University of Media Stuttgart
+
+## License
+
+MIT License | Copyright © 2019 Moritz Gut (moritzgvt) 

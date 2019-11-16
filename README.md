@@ -1,7 +1,8 @@
 ## Amsel :bird:
 
-This project is dedicated to develop a preferably cheap robot for freshmen students to teach them basic coding. Main focus is to learn the python in a way as easy as possible without whitewash the fundamental structures of programming.<br>
-> **[Learn how it works!](https://moritzgvt.github.io/amsel/)**
+This project is dedicated to develop a preferably cheap robot for freshmen students to teach them basic coding. Main focus is to learn python in a way as easy as possible without whitewash the fundamental structures of programming.<br><br>
+**[Learn how it works!](https://moritzgvt.github.io/amsel/)**
+<br>
 
 ### Getting Started
 Read the [documentation](https://moritzgvt.github.io/amsel/getting-started) for an installation and usage guide.

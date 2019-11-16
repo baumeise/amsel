@@ -27,4 +27,4 @@ This Project is a result of the course "Roboter Didaktik" at University of Media
 
 ## License
 
-MIT License | Copyright © 2019 Moritz Gut (moritzgvt) 
+[MIT License](https://github.com/moritzgvt/amsel/blob/master/LICENSE) | Copyright © 2019 Moritz Gut (moritzgvt) 

@@ -5,6 +5,7 @@ This project is dedicated to develop a preferably cheap robot for freshmen stude
 Check the [official documentation page](https://moritzgvt.github.io/amsel/) for further information.
 
 ## Usage
+Get the [amselpy](https://github.com/moritzgvt/amselpy) Python library, then:
 ``` python
 # import Python library
 from amselpy import Amsel

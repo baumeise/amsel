@@ -25,15 +25,15 @@ char AP_pass[] = "passwort";
 
 //DC-Motor 1
 const int full_speed1 = 1024;
-int GSM1 = D5;
-int in1 = D1;
-int in2 = D2;
+int GSM1 = D1;
+int in1 = D8;
+int in2 = D7;
 
 //DC-Motor 2
 const int full_speed2 = 1024;
-int GSM2 = D7;
-int in3 = D3;
-int in4 = D4;
+int GSM2 = D2;
+int in3 = D5;
+int in4 = D6;
 
 ESP8266WebServer server(80);
 MDNSResponder MDNS;
@@ -106,6 +106,7 @@ void stop() {
 }
 
 void handleLeft() {
+  analogWrite(GSM2, full_speed2);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, LOW);
   digitalWrite(in3, LOW);  
@@ -116,6 +117,7 @@ void handleLeft() {
 }
 
 void handleRight() {
+  analogWrite(GSM1, full_speed1);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, HIGH); 
   digitalWrite(in3, LOW); 

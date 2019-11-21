@@ -24,11 +24,13 @@ char AP_ssid[] = "Amsel";
 char AP_pass[] = "passwort";
 
 //DC-Motor 1
+const int full_speed1 = 1024;
 int GSM1 = D5;
 int in1 = D1;
 int in2 = D2;
 
 //DC-Motor 2
+const int full_speed2 = 1024;
 int GSM2 = D7;
 int in3 = D3;
 int in4 = D4;
@@ -61,8 +63,8 @@ void setup() {
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
 
-  analogWrite(GSM1, 1024); //Pwm duty cycle 100%  
-  analogWrite(GSM2, 1024); //Pwm duty cycle 100%  
+  analogWrite(GSM1, full_speed1); //Pwm duty cycle 100%  
+  analogWrite(GSM2, full_speed2); //Pwm duty cycle 100%  
   
   // Handle routing
   routes();
@@ -75,7 +77,9 @@ void loop() {
 }
 
 // Amsel Skills
-void handleForward() {
+void handleForward(long speed) {
+  analogWrite(GSM1, (full_speed1*speed)/100);
+  analogWrite(GSM2, (full_speed2*speed)/100);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, HIGH);   
   digitalWrite(in3, LOW);  
@@ -83,7 +87,9 @@ void handleForward() {
   server.send(200, "text/plain", "Amsel now moving forward!"); 
 }
 
-void handleReverse() {
+void handleReverse(long speed) {
+  analogWrite(GSM1, (full_speed1*speed)/100);
+  analogWrite(GSM2, (full_speed2*speed)/100);
   digitalWrite(in1, HIGH);   
   digitalWrite(in2, LOW);     
   digitalWrite(in3, HIGH);

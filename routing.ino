@@ -49,10 +49,10 @@ void routes() {
   server.on("/connect", handleConnect);
   server.onNotFound(handleNotFound);  
   server.on("/forward", []() { 
-    handleForward();
+    handleForward(handleSpecificArg());
   });
   server.on("/reverse", []() {
-    handleReverse();
+    handleReverse(handleSpecificArg());
   });
   server.on("/stop", []() {
     stop();
@@ -63,4 +63,15 @@ void routes() {
   server.on("/left", []() {
     handleLeft();
   });
+}
+
+long handleSpecificArg() { 
+  long value = 0;
+  // Check for speed argument
+  if (server.arg("speed").length() > 0) {
+    value = server.arg("speed").toInt();                          
+  } else {
+    value = 0;                            
+  }
+  return value;
 }

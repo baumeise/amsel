@@ -25,15 +25,21 @@ char AP_pass[] = "passwort";
 
 //DC-Motor 1
 const int full_speed1 = 1024;
-int GSM1 = D1;
-int in1 = D8;
-int in2 = D7;
+const int GSM1 = D1;
+const int in1 = D8;
+const int in2 = D7;
 
 //DC-Motor 2
 const int full_speed2 = 1024;
-int GSM2 = D2;
-int in3 = D5;
-int in4 = D6;
+const int GSM2 = D2;
+const int in3 = D6;
+const int in4 = D5;
+
+// Ultraschall
+const int trigPin = D4;
+const int echoPin = D3;
+long duration;
+int distance;
 
 ESP8266WebServer server(80);
 MDNSResponder MDNS;
@@ -57,11 +63,13 @@ void setup() {
 
   // Set PinMode
   pinMode(GSM1, OUTPUT);
-  pinMode(GSM2, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
+  pinMode(GSM2, OUTPUT);
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 
   analogWrite(GSM1, full_speed1); //Pwm duty cycle 100%  
   analogWrite(GSM2, full_speed2); //Pwm duty cycle 100%  
@@ -113,7 +121,7 @@ void handleLeft() {
   digitalWrite(in4, HIGH);   
   delay(1000);
   stop();
-   server.send(200, "text/plain", "Amsel now turning left!");
+  server.send(200, "text/plain", "Amsel now turning left!");
 }
 
 void handleRight() {
@@ -125,4 +133,22 @@ void handleRight() {
   delay(1000);
   stop();
   server.send(200, "text/plain", "Amsel now turning right!");
+}
+
+void handleSensor() {
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculating and sending the distance
+  distance = (duration/2) / 29.1; // in cm
+  server.send(200, "text/plain", String(distance));
 }

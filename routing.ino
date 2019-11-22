@@ -63,6 +63,9 @@ void routes() {
   server.on("/left", []() {
     handleLeft();
   });
+  server.on("/sensor", []() {
+    handleSensor();
+  });
 }
 
 long handleSpecificArg() { 

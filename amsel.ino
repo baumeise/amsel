@@ -90,8 +90,8 @@ void handleForward(long speed) {
   analogWrite(GSM2, (full_speed2*speed)/100);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, HIGH);   
-  digitalWrite(in3, LOW);  
-  digitalWrite(in4, HIGH);
+  digitalWrite(in3, HIGH);  
+  digitalWrite(in4, LOW);
   server.send(200, "text/plain", "Amsel now moving forward!"); 
 }
 
@@ -100,8 +100,8 @@ void handleReverse(long speed) {
   analogWrite(GSM2, (full_speed2*speed)/100);
   digitalWrite(in1, HIGH);   
   digitalWrite(in2, LOW);     
-  digitalWrite(in3, HIGH);
-  digitalWrite(in4, LOW); 
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH); 
   server.send(200, "text/plain", "Amsel now moving backwards!");  
 }
 
@@ -117,8 +117,8 @@ void handleLeft() {
   analogWrite(GSM2, full_speed2);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, LOW);
-  digitalWrite(in3, LOW);  
-  digitalWrite(in4, HIGH);   
+  digitalWrite(in3, HIGH);  
+  digitalWrite(in4, LOW);   
   delay(1000);
   stop();
   server.send(200, "text/plain", "Amsel now turning left!");

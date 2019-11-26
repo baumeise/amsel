@@ -47,7 +47,9 @@ void routes() {
   server.on("/setup", handleSetup);
   server.on("/login", handleLoginAttempt);
   server.on("/connect", handleConnect);
-  server.onNotFound(handleNotFound);  
+  server.on("/steer", []() {
+    handleSteering();
+  });
   server.on("/forward", []() { 
     handleForward(handleSpecificArg());
   });
@@ -66,6 +68,8 @@ void routes() {
   server.on("/sensor", []() {
     handleSensor();
   });
+
+  server.onNotFound(handleNotFound);
 }
 
 long handleSpecificArg() { 

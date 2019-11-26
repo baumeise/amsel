@@ -23,14 +23,14 @@ char* pass;
 char AP_ssid[] = "Amsel";
 char AP_pass[] = "passwort";
 
+const int full_speed = 1024;
+
 //DC-Motor 1
-const int full_speed1 = 1024;
 const int GSM1 = D1;
 const int in1 = D8;
 const int in2 = D7;
 
 //DC-Motor 2
-const int full_speed2 = 1024;
 const int GSM2 = D2;
 const int in3 = D6;
 const int in4 = D5;
@@ -71,8 +71,8 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  analogWrite(GSM1, full_speed1); //Pwm duty cycle 100%  
-  analogWrite(GSM2, full_speed2); //Pwm duty cycle 100%  
+  analogWrite(GSM1, full_speed); //Pwm duty cycle 100%  
+  analogWrite(GSM2, full_speed); //Pwm duty cycle 100%  
   
   // Handle routing
   routes();
@@ -86,8 +86,8 @@ void loop() {
 
 // Amsel Skills
 void handleForward(long speed) {
-  analogWrite(GSM1, (full_speed1*speed)/100);
-  analogWrite(GSM2, (full_speed2*speed)/100);
+  analogWrite(GSM1, (full_speed*speed)/100);
+  analogWrite(GSM2, (full_speed*speed)/100);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, HIGH);   
   digitalWrite(in3, HIGH);  
@@ -95,9 +95,36 @@ void handleForward(long speed) {
   server.send(200, "text/plain", "Amsel now moving forward!"); 
 }
 
+void handleSteering() {
+  String left_str = server.arg("l");
+  String right_str = server.arg("r");
+  String speed_str = server.arg("s");
+  int left_int = left_str.toInt();
+  int right_int = right_str.toInt();
+  int speed_int = speed_str.toInt();
+
+  if( speed_int > 0 ) {
+    analogWrite(GSM1, full_speed * speed_int * left_int);
+    analogWrite(GSM2, full_speed * speed_int * right_int);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+  } else {
+    analogWrite(GSM1, full_speed * speed_int * left_int);
+    analogWrite(GSM2, full_speed * speed_int * right_int);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+  }
+  
+  server.send(200);
+}
+
 void handleReverse(long speed) {
-  analogWrite(GSM1, (full_speed1*speed)/100);
-  analogWrite(GSM2, (full_speed2*speed)/100);
+  analogWrite(GSM1, (full_speed*speed)/100);
+  analogWrite(GSM2, (full_speed*speed)/100);
   digitalWrite(in1, HIGH);   
   digitalWrite(in2, LOW);     
   digitalWrite(in3, LOW);
@@ -114,7 +141,7 @@ void stop() {
 }
 
 void handleLeft() {
-  analogWrite(GSM2, full_speed2);
+  analogWrite(GSM2, full_speed);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, LOW);
   digitalWrite(in3, HIGH);  
@@ -125,7 +152,7 @@ void handleLeft() {
 }
 
 void handleRight() {
-  analogWrite(GSM1, full_speed1);
+  analogWrite(GSM1, full_speed);
   digitalWrite(in1, LOW);  
   digitalWrite(in2, HIGH); 
   digitalWrite(in3, LOW); 

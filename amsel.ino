@@ -70,6 +70,9 @@ void setup() {
   pinMode(in4, OUTPUT);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  pinMode(BUILTIN_LED, OUTPUT);
+
+  digitalWrite(BUILTIN_LED, LOW);
 
   analogWrite(GSM1, full_speed1); //Pwm duty cycle 100%  
   analogWrite(GSM2, full_speed2); //Pwm duty cycle 100%  
@@ -93,34 +96,6 @@ void handleForward(long speed) {
   digitalWrite(in3, HIGH);  
   digitalWrite(in4, LOW);
   server.send(200, "text/plain", "Amsel now moving forward!"); 
-}
-
-void handleSteering() {
-  String left_str = server.arg("l");
-  String right_str = server.arg("r");
-  String speed_str = server.arg("s");
-  int left_int = left_str.toInt();
-  int right_int = right_str.toInt();
-  int speed_int = speed_str.toInt();
-
-  if( speed_int > 0 ) {
-    analogWrite(GSM1, full_speed1 * speed_int * left_int);
-    analogWrite(GSM2, full_speed2 * speed_int * right_int);
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, HIGH);
-    digitalWrite(in3, HIGH);
-    digitalWrite(in4, LOW);
-  } else {
-    analogWrite(GSM1, full_speed1 * speed_int * left_int);
-    analogWrite(GSM2, full_speed2 * speed_int * right_int);
-    digitalWrite(in1, HIGH);
-    digitalWrite(in2, LOW);
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, HIGH);
-  }
-
-  
-  server.send(200);
 }
 
 void handleReverse(long speed) {
@@ -161,6 +136,34 @@ void handleRight() {
   delay(1000);
   stop();
   server.send(200, "text/plain", "Amsel now turning right!");
+}
+
+void handleSteering() {
+  String left_str = server.arg("l");
+  String right_str = server.arg("r");
+  String speed_str = server.arg("s");
+  float left_float = left_str.toFloat();
+  float right_float = right_str.toFloat();
+  float speed_float = speed_str.toFloat();
+  
+  if ( speed_float > 0 ) {
+    analogWrite(GSM1, full_speed1 * speed_float * right_float);
+    analogWrite(GSM2, full_speed2 * speed_float * left_float);
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+  } else {
+    analogWrite(GSM1, (full_speed1 * speed_float * right_float) * -1);
+    analogWrite(GSM2, (full_speed2 * speed_float * left_float) * -1);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+  }
+  
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.send(200);
 }
 
 void handleSensor() {

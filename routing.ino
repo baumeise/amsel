@@ -47,7 +47,7 @@ void routes() {
   server.on("/setup", handleSetup);
   server.on("/login", handleLoginAttempt);
   server.on("/connect", handleConnect);
-  server.on("/steer", []() {
+  server.on("/steer", []() { 
     handleSteering();
   });
   server.on("/forward", []() { 

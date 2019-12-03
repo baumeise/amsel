@@ -58,18 +58,18 @@ void routes() {
     stop();
   });
   server.on("/right", []() {
-    handleRight();
+    handleRight(handleSpecificArg());
   });
   server.on("/left", []() {
-    handleLeft();
+    handleLeft(handleSpecificArg());
   });
   server.on("/sensor", []() {
     handleSensor();
   });
 }
 
-long handleSpecificArg() { 
-  long value = 0;
+int handleSpecificArg() { 
+  int value = 0;
   // Check for speed argument
   if (server.arg("speed").length() > 0) {
     value = server.arg("speed").toInt();                          

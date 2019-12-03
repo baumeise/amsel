@@ -3,6 +3,12 @@
 #include <ESP8266WebServer.h>
 #include <ArduinoOTA.h>
 #include <FS.h>
+#include "SSD1306Wire.h"
+#include "OLEDDisplayUi.h"
+
+#define TX 1
+#define RX 3
+#define CONTROL_TIMEOUT 1000
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -23,31 +29,50 @@ char* pass;
 char AP_ssid[] = "Amsel";
 char AP_pass[] = "passwort";
 
-//DC-Motor 1
+// Amsel
+long lastControlUpdate = 0;
+float drive_factor = 0.0;
+float steer_factor = 0.0;
+
+// DC-Motor 1
 const int full_speed1 = 1024;
-const int GSM1 = D1;
+const int GSM1 = D0;
 const int in1 = D8;
 const int in2 = D7;
 
-//DC-Motor 2
+// DC-Motor 2
 const int full_speed2 = 1024;
-const int GSM2 = D2;
+const int GSM2 = D3;
 const int in3 = D6;
 const int in4 = D5;
 
 // Ultraschall
-const int trigPin = D4;
-const int echoPin = D3;
+const int trigPin = RX;
+const int echoPin = D4;
 long duration;
 int distance;
+
+// Display
+SSD1306Wire  display(0x3c, D2, D1);
+OLEDDisplayUi ui     ( &display );
+
+// OTA
+bool isOtaActive = false;
 
 ESP8266WebServer server(80);
 MDNSResponder MDNS;
 
 void setup() {
+  //Swap a TX/RX pin to a GPIO.
+  // pinMode(TX, FUNCTION_3);
+  pinMode(RX, FUNCTION_3);
+  
   // Init serial, wait for port
   Serial.begin(115200);
   while (!Serial) { ; }
+
+  // Setup display
+  setup_display();
 
   // Init access point
   riseAP();
@@ -71,68 +96,89 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  analogWrite(GSM1, full_speed1); //Pwm duty cycle 100%  
-  analogWrite(GSM2, full_speed2); //Pwm duty cycle 100%  
+  analogWrite(GSM1, 0); //Pwm duty cycle 0%  
+  analogWrite(GSM2, 0); //Pwm duty cycle 0%  
   
   // Handle routing
   routes();
 }
 
-void loop() { 
+void loop() {
+  loop_display();
   server.handleClient();
   MDNS.update();
   ArduinoOTA.handle();
+
+  // Alive check
+  if (millis() - lastControlUpdate > CONTROL_TIMEOUT) {
+    stop();
+  }
 }
 
 // Amsel Skills
-void handleForward(long speed) {
-  analogWrite(GSM1, (full_speed1*speed)/100);
-  analogWrite(GSM2, (full_speed2*speed)/100);
-  digitalWrite(in1, LOW);  
-  digitalWrite(in2, HIGH);   
-  digitalWrite(in3, HIGH);  
-  digitalWrite(in4, LOW);
+void handleForward(int speed) {
+  drive_factor = (float)speed/100.0;
+  updateWheelSpeed();
   server.send(200, "text/plain", "Amsel now moving forward!"); 
 }
 
-void handleReverse(long speed) {
-  analogWrite(GSM1, (full_speed1*speed)/100);
-  analogWrite(GSM2, (full_speed2*speed)/100);
-  digitalWrite(in1, HIGH);   
-  digitalWrite(in2, LOW);     
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH); 
+void handleReverse(int speed) {
+  drive_factor = -(float)speed/100.0;
+  updateWheelSpeed();
   server.send(200, "text/plain", "Amsel now moving backwards!");  
 }
 
 void stop() {
-  digitalWrite(in1, LOW);  
-  digitalWrite(in2, LOW);  
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, LOW); 
+  drive_factor = 0;
+  steer_factor = 0;
+  updateWheelSpeed();
   server.send(200, "text/plain", "Amsel now stopping!");
 }
 
-void handleLeft() {
-  analogWrite(GSM2, full_speed2);
-  digitalWrite(in1, LOW);  
-  digitalWrite(in2, LOW);
-  digitalWrite(in3, HIGH);  
-  digitalWrite(in4, LOW);   
-  delay(1000);
-  stop();
+void handleLeft(int speed) {
+  steer_factor = (float)speed/100.0; 
+  updateWheelSpeed();
   server.send(200, "text/plain", "Amsel now turning left!");
 }
 
-void handleRight() {
-  analogWrite(GSM1, full_speed1);
-  digitalWrite(in1, LOW);  
-  digitalWrite(in2, HIGH); 
-  digitalWrite(in3, LOW); 
-  digitalWrite(in4, LOW);
-  delay(1000);
-  stop();
+void handleRight(int speed) {
+  steer_factor = -(float)speed/100.0; 
+  updateWheelSpeed();
   server.send(200, "text/plain", "Amsel now turning right!");
+}
+
+void updateWheelSpeed() {
+  float wheelSpeedLeft  = (float)full_speed1*(drive_factor-steer_factor);
+  float wheelSpeedRight = (float)full_speed2*(drive_factor+steer_factor);
+  
+  analogWrite(GSM1, abs(wheelSpeedLeft));
+  analogWrite(GSM2, abs(wheelSpeedRight));
+
+  // Left wheel direction
+  if (wheelSpeedLeft > 0) {
+    digitalWrite(in1, LOW);   
+    digitalWrite(in2, HIGH);
+  } else if (wheelSpeedLeft < 0) {
+    digitalWrite(in1, HIGH);   
+    digitalWrite(in2, LOW);
+  } else { // wheelSpeed == 0
+    digitalWrite(in1, LOW);  
+    digitalWrite(in2, LOW); 
+  }
+
+  // Right wheel direction
+  if (wheelSpeedRight > 0) {
+    digitalWrite(in3, HIGH);   
+    digitalWrite(in4, LOW);
+  } else if (wheelSpeedRight < 0) {
+    digitalWrite(in3, LOW);   
+    digitalWrite(in4, HIGH);
+  } else { // wheelSpeed == 0
+    digitalWrite(in3, LOW);  
+    digitalWrite(in4, LOW); 
+  }
+  
+  lastControlUpdate = millis();
 }
 
 void handleSensor() {

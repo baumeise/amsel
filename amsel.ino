@@ -95,9 +95,6 @@ void setup() {
   pinMode(in4, OUTPUT);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  pinMode(BUILTIN_LED, OUTPUT);
-
-  digitalWrite(BUILTIN_LED, LOW);
 
   analogWrite(GSM1, 0); //Pwm duty cycle 0%  
   analogWrite(GSM2, 0); //Pwm duty cycle 0%  
@@ -150,7 +147,6 @@ void handleRight(int speed) {
   server.send(200, "text/plain", "Amsel now turning right!");
 }
 
-<<<<<<< HEAD
 void updateWheelSpeed() {
   float wheelSpeedLeft  = (float)full_speed1*(drive_factor-steer_factor);
   float wheelSpeedRight = (float)full_speed2*(drive_factor+steer_factor);
@@ -183,7 +179,8 @@ void updateWheelSpeed() {
   }
   
   lastControlUpdate = millis();
-=======
+}
+
 void handleSteering() {
   String left_str = server.arg("l");
   String right_str = server.arg("r");
@@ -210,7 +207,6 @@ void handleSteering() {
   
   server.sendHeader("Access-Control-Allow-Origin", "*");
   server.send(200);
->>>>>>> 81e44cb6666b4e1dcc173c7bd67e1178c3b39914
 }
 
 void handleSensor() {

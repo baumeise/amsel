@@ -34,4 +34,4 @@ This code is a result of the course "Roboter Didaktik" at University of Media St
 
 ### License
 
-[MIT License](https://github.com/moritzgvt/amsel/blob/master/LICENSE) | Copyright © 2019 Moritz Gut (moritzgvt) 
+[MIT License](https://github.com/baumeise/amsel/blob/master/LICENSE) | Copyright © 2019 Moritz Gut (moritzgvt) 

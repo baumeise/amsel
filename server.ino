@@ -72,21 +72,9 @@ IPAddress AccessPointIP() {
 }
 
 //Enable OTA Flashing
-
 void startOTA() {
- 
-  // Port defaults to 8266
-  // ArduinoOTA.setPort(8266);
 
-  // Hostname defaults to esp8266-[ChipID]
   ArduinoOTA.setHostname("amsel");
-
-  // No authentication by default
-  // ArduinoOTA.setPassword("admin");
-
-  // Password can be set with it's md5 value as well
-  // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
-  // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 
   ArduinoOTA.onStart([]() {
     isOtaActive = true;
@@ -98,18 +86,20 @@ void startOTA() {
       type = "filesystem";
     }
 
-    // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
     Serial.println("Start updating " + type);
     drawOtaStart();
   });
+
   ArduinoOTA.onEnd([]() {
     Serial.println("\nEnd");
     drawOtaEnd();
   });
+
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
     drawOtaProgress(progress, total);
   });
+
   ArduinoOTA.onError([](ota_error_t error) {
     Serial.printf("Error[%u]: ", error);
     if (error == OTA_AUTH_ERROR) {
@@ -129,5 +119,6 @@ void startOTA() {
       drawOtaError("End Failed");
     }
   });
+
   ArduinoOTA.begin();
 }

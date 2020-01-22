@@ -10,7 +10,7 @@
       background-color: #002b50;
       padding: 20px;
 
-      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-family: sans-serif;
     }
 
     a {
@@ -18,8 +18,8 @@
     }
 
     p.main_text {
-      font-size: 15px;
-      font-weight: 300;
+      font-size: 14px;
+      font-weight: 400;
       line-height: 20px;
       color: #e3f6ff;
     }
@@ -117,7 +117,7 @@
     <span>Howdy, I am Amsel!</span>
   </div>
 
-  <p class="main_text mb">Enter some wifi credentials to connect your Amsel to the local Network.</p>
+  <p class="main_text mb">Enter wifi credentials to connect me to a network</p>
 
   <form action="http://192.168.4.1/login" method="GET">
     <input type="text" class="ssid_input" name="ssid" placeholder="SSID" required>
@@ -126,15 +126,6 @@
     <br><br>
     <input type="submit" class="submit_input" value="Connect to WiFi">
   </form> 
-  <p id="doc_info" class="sub_text"></p>
+  <p id="doc_info" class="sub_text">For further information visit the <a href="https://baumeise.github.io/amsel/getting-started">/getting-started</a> guide</p>
 </body>
-<script>
-  function getURL() {
-    var currURL = window.location.hostname;
-    var docsURL = currURL + "/docs"
-    var documentation_info = "For further information visit <a href=\"" + docsURL + "\">" + docsURL + "</a>";
-    document.querySelector("#doc_info").innerHTML = documentation_info;
-  }
-  getURL();
-</script>
 </html>

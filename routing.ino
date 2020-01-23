@@ -20,7 +20,7 @@ void routes() {
   });
 
   server.on("/backward", []() {
-    handleReverse(handleSpecificArg());
+    handleBackward(handleSpecificArg());
   });
 
   server.on("/stop", []() {

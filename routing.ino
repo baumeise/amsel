@@ -1,15 +1,25 @@
 // Routing
 void routes() {
+  // Render 
   server.on("/", openHome);
   server.on("/setup", openSetup);
+
+  // Connection
   server.on("/login", handleLoginAttempt);
   server.on("/connect", handleConnect);
 
+  // Setters
+  server.on("/calibrate", handleCalibration);
+
+  // Getters
+  server.on("/distance", handleDistance);
+
+  // Skills
   server.on("/forward", []() { 
     handleForward(handleSpecificArg());
   });
 
-  server.on("/reverse", []() {
+  server.on("/backward", []() {
     handleReverse(handleSpecificArg());
   });
 
@@ -24,10 +34,7 @@ void routes() {
   server.on("/left", []() {
     handleLeft(handleSpecificArg());
   });
-  
-  server.on("/sensor", []() {
-    handleSensor();
-  });
 
+  // Helpers
   server.onNotFound(handleNotFound);
 }

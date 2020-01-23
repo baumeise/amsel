@@ -122,7 +122,7 @@ void updateWheelSpeed() {
   lastControlUpdate = millis();
 }
 
-void handleSensor() {
+void handleDistance() {
   // Clears the trigPin
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);

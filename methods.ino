@@ -1,4 +1,4 @@
-// Html
+// Render
 void openHome() {
   File file = SPIFFS.open("/home.html", "r"); 
   size_t sent = server.streamFile(file, "text/html");
@@ -17,7 +17,7 @@ void openConnected() {
   file.close();
 }
 
-// Login and connection
+// Connection
 void handleLoginAttempt() {
   server.sendHeader("Location", "/connect", true);
   server.send( 302, "text/plain", "");
@@ -46,17 +46,29 @@ void handleConnect() {
   } 
 }
 
-// Amsel Skills
-void handleForward(int speed) {
+// Skills
+void handleForward(int speed, bool inLoop=false) {
   drive_factor = (float)speed/100.0;
-  updateWheelSpeed();
+  updateWheelSpeed(inLoop);
   server.send(200, "text/plain", "Amsel now moving forward!"); 
 }
 
-void handleReverse(int speed) {
+void handleBackward(int speed, bool inLoop=false) {
   drive_factor = -(float)speed/100.0;
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now moving backwards!");  
+  updateWheelSpeed(inLoop);
+  server.send(200, "text/plain", "Amsel now moving backward!");  
+}
+
+void handleLeft(int speed, bool inLoop=false) {
+  steer_factor = (float)speed/100.0; 
+  updateWheelSpeed(inLoop);
+  server.send(200, "text/plain", "Amsel now turning left!");
+}
+
+void handleRight(int speed, bool inLoop=false) {
+  steer_factor = -(float)speed/100.0; 
+  updateWheelSpeed(inLoop);
+  server.send(200, "text/plain", "Amsel now turning right!");
 }
 
 void stop() {
@@ -66,29 +78,7 @@ void stop() {
   server.send(200, "text/plain", "Amsel now stopping!");
 }
 
-void handleLeft(int speed) {
-  steer_factor = (float)speed/100.0; 
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now turning left!");
-}
-
-void handleRight(int speed) {
-  steer_factor = -(float)speed/100.0; 
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now turning right!");
-}
-
-void handleCalibration() {
-  String left_str = server.arg("l");
-  String right_str = server.arg("r");
-  float left_float = left_str.toFloat();
-  float right_float = right_str.toFloat();
-  
-  float full_speed1 = (float)full_speed1*left_float;
-  float full_speed2 = (float)full_speed2*right_float;
-}
-
-void updateWheelSpeed() {
+void updateWheelSpeed(bool inLoop) {
   float wheelSpeedLeft  = (float)full_speed1*(drive_factor-steer_factor);
   float wheelSpeedRight = (float)full_speed2*(drive_factor+steer_factor);
   
@@ -118,10 +108,23 @@ void updateWheelSpeed() {
     digitalWrite(in3, LOW);  
     digitalWrite(in4, LOW); 
   }
-  
-  lastControlUpdate = millis();
+  if (inLoop) {
+    lastControlUpdate = millis();
+  }
 }
 
+//Setter
+void handleCalibration() {
+  String left_str = server.arg("l");
+  String right_str = server.arg("r");
+  float left_float = left_str.toFloat();
+  float right_float = right_str.toFloat();
+  
+  float full_speed1 = (float)full_speed1*left_float;
+  float full_speed2 = (float)full_speed2*right_float;
+}
+
+// Getter
 void handleDistance() {
   // Clears the trigPin
   digitalWrite(trigPin, LOW);

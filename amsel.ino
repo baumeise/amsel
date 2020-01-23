@@ -98,7 +98,7 @@ void loop() {
   ArduinoOTA.handle();
 
   // Alive check
-  if (lastControlUpdate && ((millis() - lastControlUpdate) > CONTROL_TIMEOUT)) {
+  if (lastControlUpdate != 0 && ((millis() - lastControlUpdate) > CONTROL_TIMEOUT)) {
     lastControlUpdate = 0;
     stop();
   }

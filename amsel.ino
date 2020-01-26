@@ -1,6 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
+#include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <FS.h>
 #include "SSD1306Wire.h"
@@ -28,6 +29,9 @@ char* pass;
 
 char AP_ssid[] = "Amsel";
 char AP_pass[] = "passwort";
+
+char UDP_ip[] = "192.168.4.1";
+int UDP_port = 8080;
 
 // Amsel
 long lastControlUpdate = 0;
@@ -71,14 +75,12 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) { ; }
 
+  // Setup network
+  setup_tcp();
+  setup_udp();
+
   // Setup display
   setup_display();
-
-  // Init access point
-  riseAP();
-
-  // Try to connect to local network
-  connectToWifi();
   
   // Start file system
   SPIFFS.begin();
@@ -98,16 +100,15 @@ void setup() {
 
   analogWrite(GSM1, 0); //Pwm duty cycle 0%  
   analogWrite(GSM2, 0); //Pwm duty cycle 0%  
-  
+
   // Handle routing
   routes();
 }
 
 void loop() {
   loop_display();
-  server.handleClient();
-  MDNS.update();
-  ArduinoOTA.handle();
+  loop_udp();
+  loop_tcp();
 
   // Alive check
   if (millis() - lastControlUpdate > CONTROL_TIMEOUT) {

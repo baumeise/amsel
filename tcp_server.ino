@@ -71,8 +71,21 @@ IPAddress AccessPointIP() {
   return WiFi.softAPIP();
 }
 
-//Enable OTA Flashing
+void setup_tcp() {
+  // Init access point
+  riseAP();
 
+  // Try to connect to local network
+  connectToWifi();
+}
+
+void loop_tcp() {
+  server.handleClient();
+  MDNS.update();
+  ArduinoOTA.handle();
+}
+
+//Enable OTA Flashing
 void startOTA() {
  
   // Port defaults to 8266

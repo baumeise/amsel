@@ -68,6 +68,9 @@ void routes() {
   server.on("/sensor", []() {
     handleSensor();
   });
+  server.on("/print", []() {
+    handlePrint(handleStringArg());
+  });
 
   server.onNotFound(handleNotFound);
 }
@@ -79,6 +82,17 @@ int handleSpecificArg() {
     value = server.arg("speed").toInt();                          
   } else {
     value = 0;                            
+  }
+  return value;
+}
+
+String handleStringArg() { 
+  String value = "";
+  // Check for speed argument
+  if (server.arg("string").length() > 0) {
+    value = server.arg("string");                          
+  } else {
+    value = "";                            
   }
   return value;
 }

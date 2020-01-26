@@ -59,6 +59,7 @@ int distance;
 // Display
 SSD1306Wire  display(0x3c, D2, D1);
 OLEDDisplayUi ui     ( &display );
+String userText = "";
 
 // OTA
 bool isOtaActive = false;
@@ -226,4 +227,9 @@ void handleSensor() {
   // Calculating and sending the distance
   distance = (duration/2) / 29.1; // in cm
   server.send(200, "text/plain", String(distance));
+}
+
+void handlePrint(String text) {
+  userText = text;
+  server.send(200, "text/plain", "Amsel printed: \"" + text + "\"");
 }

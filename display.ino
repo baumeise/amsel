@@ -80,6 +80,9 @@ void main_display() {
     drawIp();
   }
 }
+void user_display() {
+  drawText(userText);
+}
 
 // Loop handling
 Function phase = startUp;
@@ -93,7 +96,9 @@ void loop_display() {
   display.display();
 
   // Select phase
-  if (millis() > HELLO_DURATION) {       // Last phase
+  if (userText.length() > 0) {
+    phase = user_display;
+  } else if (millis() > HELLO_DURATION) {       // Last phase
     phase = main_display;
   } else if (millis() > STARTUP_DURATION) {
     phase = hello;

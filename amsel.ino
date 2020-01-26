@@ -50,6 +50,13 @@ bool isOtaActive = false;
 ESP8266WebServer server(80);
 MDNSResponder MDNS;
 
+void stop(bool inLoop=false) {
+  drive_factor = 0;
+  steer_factor = 0;
+  updateWheelSpeed(inLoop);
+  server.send(200, "text/plain", "Amsel now stopping!");
+}
+
 void setup() {
   //Swap a TX/RX pin to a GPIO.
   // pinMode(TX, FUNCTION_3);
@@ -103,4 +110,3 @@ void loop() {
     stop();
   }
 }
-

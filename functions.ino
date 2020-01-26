@@ -71,13 +71,6 @@ void handleRight(int speed, bool inLoop=false) {
   server.send(200, "text/plain", "Amsel now turning right!");
 }
 
-void stop() {
-  drive_factor = 0;
-  steer_factor = 0;
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now stopping!");
-}
-
 void updateWheelSpeed(bool inLoop) {
   float wheelSpeedLeft  = (float)full_speed1*(drive_factor-steer_factor);
   float wheelSpeedRight = (float)full_speed2*(drive_factor+steer_factor);
@@ -122,6 +115,8 @@ void handleCalibration() {
   
   float full_speed1 = (float)full_speed1*left_float;
   float full_speed2 = (float)full_speed2*right_float;
+
+  server.send(200, "text/plain", String(full_speed1, full_speed2));
 }
 
 // Getter

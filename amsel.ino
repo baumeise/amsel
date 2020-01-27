@@ -4,25 +4,13 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <FS.h>
+
 #include "SSD1306Wire.h"
 #include "OLEDDisplayUi.h"
 
 #define TX 1
 #define RX 3
 #define CONTROL_TIMEOUT 1000
-
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-  </style>
-</head>
-<body>
-  Hi there, I am Amsel!
-</body>
-<script></script>
-</html>)rawliteral";
 
 char* ssid;
 char* pass;
@@ -66,6 +54,13 @@ bool isOtaActive = false;
 
 ESP8266WebServer server(80);
 MDNSResponder MDNS;
+
+void stop(bool inLoop=false) {
+  drive_factor = 0;
+  steer_factor = 0;
+  updateWheelSpeed(inLoop);
+  server.send(200, "text/plain", "Amsel now stopping!");
+}
 
 void setup() {
   //Swap a TX/RX pin to a GPIO.
@@ -112,124 +107,8 @@ void loop() {
   loop_tcp();
 
   // Alive check
-  if (millis() - lastControlUpdate > CONTROL_TIMEOUT) {
+  if (lastControlUpdate != 0 && ((millis() - lastControlUpdate) > CONTROL_TIMEOUT)) {
+    lastControlUpdate = 0;
     stop();
   }
-}
-
-// Amsel Skills
-void handleForward(int speed) {
-  drive_factor = (float)speed/100.0;
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now moving forward!"); 
-}
-
-void handleReverse(int speed) {
-  drive_factor = -(float)speed/100.0;
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now moving backwards!");  
-}
-
-void stop() {
-  drive_factor = 0;
-  steer_factor = 0;
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now stopping!");
-}
-
-void handleLeft(int speed) {
-  steer_factor = (float)speed/100.0; 
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now turning left!");
-}
-
-void handleRight(int speed) {
-  steer_factor = -(float)speed/100.0; 
-  updateWheelSpeed();
-  server.send(200, "text/plain", "Amsel now turning right!");
-}
-
-void updateWheelSpeed() {
-  float wheelSpeedLeft  = (float)full_speed1*(drive_factor-steer_factor);
-  float wheelSpeedRight = (float)full_speed2*(drive_factor+steer_factor);
-  
-  analogWrite(GSM1, abs(wheelSpeedLeft));
-  analogWrite(GSM2, abs(wheelSpeedRight));
-
-  // Left wheel direction
-  if (wheelSpeedLeft > 0) {
-    digitalWrite(in1, LOW);   
-    digitalWrite(in2, HIGH);
-  } else if (wheelSpeedLeft < 0) {
-    digitalWrite(in1, HIGH);   
-    digitalWrite(in2, LOW);
-  } else { // wheelSpeed == 0
-    digitalWrite(in1, LOW);  
-    digitalWrite(in2, LOW); 
-  }
-
-  // Right wheel direction
-  if (wheelSpeedRight > 0) {
-    digitalWrite(in3, HIGH);   
-    digitalWrite(in4, LOW);
-  } else if (wheelSpeedRight < 0) {
-    digitalWrite(in3, LOW);   
-    digitalWrite(in4, HIGH);
-  } else { // wheelSpeed == 0
-    digitalWrite(in3, LOW);  
-    digitalWrite(in4, LOW); 
-  }
-  
-  lastControlUpdate = millis();
-}
-
-void handleSteering() {
-  String left_str = server.arg("l");
-  String right_str = server.arg("r");
-  String speed_str = server.arg("s");
-  float left_float = left_str.toFloat();
-  float right_float = right_str.toFloat();
-  float speed_float = speed_str.toFloat();
-  
-  if ( speed_float > 0 ) {
-    analogWrite(GSM1, full_speed1 * speed_float * right_float);
-    analogWrite(GSM2, full_speed2 * speed_float * left_float);
-    digitalWrite(in1, LOW);
-    digitalWrite(in2, HIGH);
-    digitalWrite(in3, HIGH);
-    digitalWrite(in4, LOW);
-  } else {
-    analogWrite(GSM1, (full_speed1 * speed_float * right_float) * -1);
-    analogWrite(GSM2, (full_speed2 * speed_float * left_float) * -1);
-    digitalWrite(in1, HIGH);
-    digitalWrite(in2, LOW);
-    digitalWrite(in3, LOW);
-    digitalWrite(in4, HIGH);
-  }
-  
-  server.sendHeader("Access-Control-Allow-Origin", "*");
-  server.send(200);
-}
-
-void handleSensor() {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-
-  // Sets the trigPin on HIGH state for 10 micro seconds
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  duration = pulseIn(echoPin, HIGH);
-
-  // Calculating and sending the distance
-  distance = (duration/2) / 29.1; // in cm
-  server.send(200, "text/plain", String(distance));
-}
-
-void handlePrint(String text) {
-  userText = text;
-  server.send(200, "text/plain", "Amsel printed: \"" + text + "\"");
 }

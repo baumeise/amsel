@@ -1,0 +1,208 @@
+<!DOCTYPE HTML><html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        box-sizing: border-box;
+        background-color: #002b50;
+        margin: 0;
+        padding: 20px;
+        width: 100%;
+        font-family: sans-serif;
+      }
+
+      h1, h3 {
+        color: #e3f6ff;
+        margin: 50px 0px;
+        line-height: 1.3em;
+        text-align: center;
+      }
+
+      h3 {
+        font-weight: 400;
+      }
+
+      a {
+        color: #00bab6; 
+      }
+
+      code {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        color: #e3f6ff;
+        font-family: monospace;
+        background-color: #171717;
+        line-height: 20px;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        margin: 10px 0;
+
+        transition: all .14s ease-in-out;
+      }
+
+      code::after {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0UzRjZGRjt9Cjwvc3R5bGU+Cjx0aXRsZT5Bc3NldCAyODg8L3RpdGxlPgo8Zz4KCTxnPgoJCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02MCwxOS44SDE4LjFjLTYuOSwwLTEyLjUsNS42LTEyLjUsMTIuNXY1NS4xYzAsNi45LDUuNiwxMi41LDEyLjUsMTIuNUg2MGM2LjksMCwxMi41LTUuNiwxMi41LTEyLjV2LTU1CgkJCUM3Mi41LDI1LjUsNjYuOSwxOS45LDYwLDE5Ljh6IE02My4yLDg3LjVjMCwxLjgtMS40LDMuMi0zLjIsMy4ybDAsMEgxOC4xYy0xLjgsMC0zLjItMS40LTMuMi0zLjJWMzIuNGMwLTEuOCwxLjQtMy4yLDMuMi0zLjJINjAKCQkJYzEuOCwwLDMuMiwxLjQsMy4yLDMuMlY4Ny41eiIvPgoJCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik04MS44LDBINDMuMkMzNywwLDMxLjksNS4xLDMxLjksMTEuM2MwLjEsMi42LDIuMyw0LjYsNC45LDQuNGMyLjQtMC4xLDQuMy0yLDQuNC00LjRjMC0xLjEsMC45LTIsMi0yaDM4LjYKCQkJYzEuOCwwLDMuMiwxLjQsMy4yLDMuMnY1MS45YzAsMS4xLTAuOSwyLTIsMmgtMi40Yy0yLjYsMC00LjcsMi4xLTQuNyw0LjdzMi4xLDQuNyw0LjcsNC43SDgzYzYuMiwwLDExLjMtNS4xLDExLjMtMTEuM3YtNTIKCQkJQzk0LjQsNS42LDg4LjgsMCw4MS44LDB6Ii8+Cgk8L2c+CjwvZz4KPC9zdmc+Cg==');
+        position: absolute;
+        display: block;
+        height: 150px;
+        width: 15px;
+        right: 10px;
+        top: 14px;
+        opacity: 0.7;
+        
+        transition: all .14s ease-in-out;
+      }
+
+      code:hover {
+        box-shadow: rgba(17, 17, 17, 0.4) 1px 1px 5px;
+      }
+
+      code:hover::after {
+        opacity: 1;
+      }
+
+      code .comment {
+        opacity: 0.4;
+      }
+
+      p {
+        margin: 5px 0;
+      }
+
+      p.main_text {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0.03em;
+        color: #e3f6ff;
+      }
+
+      p.sub_text {
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 15px;
+        color: #e3f6ff;
+        opacity: 0.4;
+        text-align: center;
+      }
+
+      .mb {
+        margin-bottom: 30px;
+      }
+
+      .mbs {
+        margin-bottom: 20px;
+      }
+
+      .mts {
+        margin-top: 20px;
+      }
+
+      #logo {
+        width: 100%;
+        overflow: hidden;
+        border-bottom: 1px solid #f3f3f3;
+        padding-bottom: 10px;
+      }
+
+      #logo svg {
+        width: 60px;
+        float: left;
+      }
+
+      #logo svg path {
+        fill: #00bab6;
+      }
+
+      #logo span {
+        float: left;
+        line-height: 63px;
+        color: #e3f6ff;
+        font-size: 18px;
+        padding-left: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="logo" class="mbs">
+      <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+        y="0px" viewBox="180 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+        <g>
+          <path d="M652.3,411.1c-47.1-47.1-47.1-123.4,0-170.4s123.4-47.1,170.4,0c47.1,47.1,47.1,123.4,0,170.4
+          C775.6,458.2,699.3,458.2,652.3,411.1" />
+          <g>
+            <path d="M652.2,827.8c-0.6,0-1.2,0-1.7,0c-94.3-0.9-171.7-77.2-172.6-170.1c-0.2-22.7,18-41.2,40.6-41.4
+            c22.8,0.4,41.2,18,41.4,40.6c0.5,48.5,41.4,88.4,91.3,88.8c24-0.4,46.9-8.8,63.6-25.5c16-16,24.7-37.3,24.5-60
+            c-0.5-48.5-41.4-88.3-91.4-88.8c-140.4-1.4-423.2-2.5-426.1-2.6c-22.7-0.1-41-18.6-40.9-41.2c0.1-22.6,18.4-40.9,41-40.9
+            c0.1,0,0.1,0,0.2,0c2.8,0,285.9,1.2,426.5,2.6c94.3,0.9,171.7,77.2,172.6,170.1c0.4,44.9-16.8,87.1-48.6,118.8
+            C740.8,810.2,698,827.8,652.2,827.8z" />
+          </g>
+        </g>
+      </svg>
+      <span>Howdy, I am Amsel!</span>
+    </div>
+    
+    <h3>You want to get started?</h3>
+
+    <p class="main_text">This is how you use the python library:</p>
+
+    <code>
+      pip install amselpy
+    </code>
+
+    <p class="main_text">Install the AmselPy python library to take control:</p>
+
+    <code>
+      <span class="comment"># import library</span> <br>
+      from amselpy import Amsel <br>
+      <br>
+      <span class="comment"># create an instance</span> <br>
+      amsel = Amsel() <br>
+      <br>
+      <span class="comment"># set adress</span> <br>
+      amsel.use("<YOUR-AMSELS-IP>") <br>
+      <br>
+      <span class="comment"># control movements</span> <br>
+      amsel.forward(120) <br>
+      amsel.sleep(5) <br>
+      amsel.stop() <br>
+    </code>
+
+    <p class="sub_text mts">Checkout the documentation on <a href="https://baumeise.github.io/amsel/docs">https://baumeise.github.io/amsel/docs</a> for further information.</p>
+
+    <script>
+
+      (function() {
+        registerEventListeners();
+      })();
+      
+      function registerEventListeners() {
+        const codeSegments = document.getElementsByTagName('code');
+
+        Array.from(codeSegments).forEach(segment => {
+          segment.addEventListener('click', function (event) {
+            copyToClipboard(event.target.innerText);
+          })
+        });
+      }
+
+      const copyToClipboard = str => {
+        const el = document.createElement('textarea');
+        el.value = str;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      };
+
+    </script>
+    
+  </body>
+</html>

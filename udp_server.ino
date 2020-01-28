@@ -6,7 +6,7 @@ void udp_routes(char* command, int arg) {
   if (strcmp(command, "forward") == 0) { 
     handleForward(arg);
   } else if (strcmp(command, "reverse") == 0) {
-    handleReverse(arg);
+    handleBackward(arg);
   } else if (strcmp(command, "stop") == 0) {
     stop();
   } else if (strcmp(command, "right") == 0) {

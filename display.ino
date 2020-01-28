@@ -7,7 +7,7 @@
 #define STATUS_BAR_HEIGHT 10
 #define DEFAULT_TEXT_ALIGN TEXT_ALIGN_CENTER_BOTH
 #define DEFAULT_TEXT_POS_X (display.getWidth()-STATUS_BAR_HEIGHT)/2
-#define DEFAULT_TEXT_POS_Y (display.getHeight()-STATUS_BAR_HEIGHT)/2
+#define DEFAULT_TEXT_POS_Y (display.getHeight()-STATUS_BAR_HEIGHT)/2+5
 
 typedef void (*Function)(void);
 
@@ -43,7 +43,7 @@ void drawWifi() {
   drawText(String("") +\
             "Please connect to WI-FI"    +"\n"+\
             "\"Amsel\" and use password" +"\n"+\
-            "\"passwort\".");
+            String(AP_pass) + ".");
 }
 
 void drawIp() {
@@ -83,7 +83,9 @@ void hello() {
 }
 
 void main_display() {
-  if (WiFi.softAPgetStationNum() == 0) {
+  if (NetworkIP()){
+    // wait for user content
+  } else if (WiFi.softAPgetStationNum() == 0) {
     drawWifi();
   } else if (isOtaActive) {
     // wait for OTA and Reset
@@ -91,6 +93,7 @@ void main_display() {
     drawIp();
   }
 }
+
 void user_display() {
   drawText(userText);
 }
@@ -120,10 +123,18 @@ void loop_display() {
 
 void overlay() {
     aliveOverlayState = !aliveOverlayState;
+    
     if (aliveOverlayState) {
-      display.fillCircle(2, 2, 2);
+      display.fillRect(0, 0, 1, 10);
     }
+    
     if (WiFi.softAPgetStationNum() > 0) {
-      display.drawXbm(118, 0, overlay_wifi_width, overlay_wifi_height, overlay_wifi_bits);
+      display.drawXbm(115, 3, overlay_wifi_width, overlay_wifi_height, overlay_wifi_bits);
+    }
+
+    if (NetworkIP()) {
+        display.drawString(DEFAULT_TEXT_POS_X, 6, NetworkIP().toString());
+    } else if (AccessPointIP()) {
+        display.drawString(DEFAULT_TEXT_POS_X, 6, AccessPointIP().toString());  
     }
 }

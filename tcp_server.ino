@@ -71,6 +71,10 @@ IPAddress AccessPointIP() {
   return WiFi.softAPIP();
 }
 
+IPAddress NetworkIP() {
+  return WiFi.localIP();
+}
+
 void setup_tcp() {
   // Init access point
   riseAP();
